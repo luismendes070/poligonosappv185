@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:548bc01dfdc03b892e7176d804a6f91e9ad9ef3f1110ed9884eda470903f6105
-size 457
+const fetch = require("node-fetch");
+
+const API_ENDPOINT = "https://icanhazdadjoke.com/";
+
+exports.handler = async (event, context) => {
+  return fetch(API_ENDPOINT, { headers: { Accept: "application/json" } })
+    .then((response) => response.json())
+    .then((data) => ({
+      statusCode: 200,
+      body: data.joke,
+    }))
+    .catch((error) => ({ statusCode: 422, body: String(error) }));
+};
